@@ -16,8 +16,9 @@ def get_message():
     if request.method == 'POST':
         message = request.form['jsdata']
         print(message)
+        
         return json.dumps(message)
-        return render_template('index.html', message='')
+        # return render_template('index.html', message='')
 
 
 

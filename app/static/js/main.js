@@ -10,7 +10,6 @@ const inputArea = document.querySelector(".input-area");
 const emojiBtn = document.querySelector('#emoji-btn');
 const picker = new EmojiButton();
 
-
 // Ce type de structures : () => {}
 // correspond à des arrow functions ES6
 // Il s'agit de fonctions js à la syntaxe simplifiée
@@ -55,7 +54,7 @@ function sendMessage(){
             // Formatage de l'input avec les balises HTML correctes :
             let temp = `<div class="out-msg">
             <span class="my-msg"><div class = "arrow"></div>${userInput}</span>
-            <img src="{{ url_for('static', filename='')}}" class="avatar">
+            <img src=${avatarUser} class="avatar">
             </div>`;
         
             $.ajax({
@@ -63,10 +62,13 @@ function sendMessage(){
                 type: "post",
                 data: {jsdata: userInput},
                 success: function(response) {
-                    let temp = `<div class="out-msg">
-                    <span class="my-msg"><div class = "arrow"></div>${response}</span>
-                    <img src="{{ url_for('static', filename='')}}" class="avatar">
-                    </div>`;
+                    let temp = `<div class="income-msg">
+                                <img class="avatar" src="${avatarBot}" alt="avatar du chatbot">
+                                <span class="msg">
+                                ${response}
+                                </span>
+                                </div>`
+
                     chatArea.insertAdjacentHTML("beforeend", temp); // Ajout du message à la fin des messages existants
 
                 },
