@@ -65,3 +65,18 @@ inputArea.addEventListener("keyup", ({key}) => {
         sendMessage();
     }
 })
+
+
+let model;
+
+const modelURL = 'http://localhost:5000/chatbot/model';
+
+async function loadModel() {
+    // model = await tf.models.modelFromJSON(modelURL)
+    model = await tf.loadLayersModel(modelURL)
+    console.log('Modèle Chargé')
+    predic_test = model.predict('Hello')
+    console.log(predic_test)
+}
+loadModel()
+

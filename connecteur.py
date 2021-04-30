@@ -12,6 +12,7 @@ class Connecteur:
     def deconnexion(cls):
         cls.client.close()
 
+    #Récupère le corpus
     @classmethod
     def get_all_data(cls):
         dic = dict()
@@ -53,3 +54,14 @@ class Connecteur:
         cls.deconnexion()
         response = {'code': 200, 'message': 'Nouvelles entrées insérées'}
         return response
+
+    #Récupère le dictionnaire avec le tag en clé et l'ouput en valeur
+    @classmethod
+    def get_output_dic(cls):
+        cls.connexion()
+        data = list(cls.col.find({}, {'_id':0, 'liste_input': 0}))
+        cls.deconnexion()
+        output_dic = dict()
+        for elem in data:
+            output_dic[elem['tag']] = elem['liste_output']
+        return output_dic
