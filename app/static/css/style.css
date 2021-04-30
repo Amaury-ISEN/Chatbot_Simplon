@@ -48,7 +48,7 @@ p{
     border-radius: 50%;
     opacity: 0.8;
     transition: opacity 0.3s;
-    box-shadow: 0 5px 5px rgba(0,0,0,0.4);
+    /* box-shadow: 0 5px 5px rgba(0,0,0,0.4); */
 }
 
 .chat-btn:hover, #emoji-btn:hover, .submit:hover{
@@ -89,8 +89,30 @@ p{
     padding: 0.5rem;
     border-radius: 20px;
     margin-left: 1rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
+    /* box-shadow: 0 2px 5px rgba(0,0,0,0.4); */
 }
+
+/* .income-msg .arrow {
+    border-style: solid;
+    position: relative;
+    border-color:rgb(206, 0, 51) transparent transparent transparent;
+    width: 5px;
+    height: 5px;
+    margin-left: -1rem;
+    border-width: 8px 8px 0px 8px;
+}
+
+.my-msg .arrow {
+    border-style: solid;
+    position: relative;
+    border-color:lightgray transparent transparent transparent;
+    width: 5px;
+    height: 5px;
+    margin-right: 1rem;
+    margin-top: 10px;
+    border-width: 8px 8px 0px 8px;
+} */
+
 
 
 .avatar{
@@ -128,6 +150,8 @@ input[type="text"]{
     border-radius: 5px;
     height: 2.2rem;
     text-indent: 6px; /* Décaler un peu la zone de saisie dans la boîte d'input pour l'esthétique */
+    padding-left: 6px;
+    padding-right: 30px;
     outline: 0 !important; /* Enlever le rectangle qui apparaît nativement quand on clique la zone de saisie */
 }
 
@@ -165,16 +189,58 @@ input[type="text"]{
 .my-msg{
     display: flex;
     justify-content: flex-end;
-    margin: 0.75rem;
+    margin: 1rem;
     padding: 0.5rem;
     background-color: lightgray;
     border-radius: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.4);
-    word-wrap: break-word;
+    /* box-shadow: 0 2px 5px rgba(0,0,0,0.4); */
+    /* word-wrap: break-word; */
+    overflow-wrap: anywhere;
 }
 
 /* Classe attribuée programatiquement via js pour afficher ou cacher un élément :*/
 .show {
     display: flex;
     transition: opacity 0.15s;
+}
+
+
+
+/* réglage global des animations animate.css*/
+:root {
+    --animate-duration: 400ms;
+    --animate-delay: 0.0s;
+  }
+
+
+
+
+
+
+
+
+  /* Customize website's scrollbar like Mac OS
+Not supports in Firefox and IE */
+
+/* total width */
+body::-webkit-scrollbar {
+    background-color: #fff;
+    width: 16px;
+}
+
+/* background of the scrollbar except button or resizer */
+body::-webkit-scrollbar-track {
+    background-color: #fff;
+}
+
+/* scrollbar itself */
+body::-webkit-scrollbar-thumb {
+    background-color: #babac0;
+    border-radius: 16px;
+    border: 4px solid #fff;
+}
+
+/* set button(top and bottom of the scrollbar) */
+body::-webkit-scrollbar-button {
+    display:none;
 }

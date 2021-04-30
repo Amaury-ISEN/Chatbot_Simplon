@@ -29,7 +29,17 @@ emojiBtn.addEventListener('click', () => {
 
 // Affichage du chat avec le bouton :
 chatBtn.addEventListener('click', ()=>{
-    popup.classList.toggle('show');
+
+    if (popup.classList.contains('show')) // Si la classe show est présente dans les classes de l'élément popup
+        {
+            popup.classList.toggle("animate__fadeOutDown"); // alors le popup était déjà ouvert et on le ferme
+        }
+
+    else
+    {
+        popup.classList.toggle('show'); // Si la classe show n'était pas présente, on affiche le popup de chat
+    }
+
 })
 
 function sendMessage(){
@@ -42,13 +52,35 @@ function sendMessage(){
         }
     else
         {
+            // Formatage de l'input avec les balises HTML correctes :
             let temp = `<div class="out-msg">
-            <span class="my-msg">${userInput}</span>
-            <img src="img/user.png" class="avatar">
+            <span class="my-msg"><div class = "arrow"></div>${userInput}</span>
+            <img src="{{ url_for('static', filename='')}}" class="avatar">
             </div>`;
         
-            chatArea.insertAdjacentHTML("beforeend", temp);
-            inputElm.value=""; //vidage de la zone de saisie après envoi        
+            $.ajax({
+                url: "/get_message",
+                type: "post",
+                data: {jsdata: userInput},
+                success: function(response) {
+                    let temp = `<div class="out-msg">
+                    <span class="my-msg"><div class = "arrow"></div>${response}</span>
+                    <img src="{{ url_for('static', filename='')}}" class="avatar">
+                    </div>`;
+                    chatArea.insertAdjacentHTML("beforeend", temp); // Ajout du message à la fin des messages existants
+
+                },
+                error: function(xhr) {
+                  //Do Something to handle error
+                }
+              });
+
+            chatArea.insertAdjacentHTML("beforeend", temp); // Ajout du message à la fin des messages existants
+            inputElm.value=""; // Vidage de la zone de saisie après envoi
+        
+
+            
+
         }
 }
 
@@ -65,3 +97,6 @@ inputArea.addEventListener("keyup", ({key}) => {
         sendMessage();
     }
 })
+
+
+

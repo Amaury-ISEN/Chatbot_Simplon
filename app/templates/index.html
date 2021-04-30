@@ -4,9 +4,13 @@
     <meta charset="utf-8">
     <meta name="viewport" contents="width=device-width, initial-scale=1.0">
     
+    <!-- cnn pour les icônes google material icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.2/iconfont/material-icons.min.css" integrity="sha512-y9glprRcVESvYY3suAqBUYXx0ySbQNvbzzgvLy9F2o38Y7XCNeq/No2gnHjV3+Rjyq5ijoPZRMXotpdw6jcG4g==" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
+    <!-- cnn pour les jolies animations CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
 
     <title>Chat Window</title>
 </head>
@@ -14,9 +18,11 @@
 
 
 <body>
+    
+    <h1 id="coucou">COUCOU LES GARS</h1>
 
     <section>
-
+        
         <h1>Chat Popup</h1>
         <p>Cliquez sur l'icône pour déployer le chat.</p>
 
@@ -24,18 +30,24 @@
         <i class="material-icons">live_help</i>
         </button>
 
-        <div class="chat-popup">
+        <div class="chat-popup animate__animated animate__fadeInUp">
             <div class="badge">1</div>
             
             <div class="chat-area">
                 <div class="income-msg">
-                    <img class="avatar" src="img/bot.png" alt="">
-                    <span class="msg"> Bonjour, comment puis-je vous aider ?</span>
+                    <img class="avatar" src="{{ url_for('static', filename='img/bot.png')}}" alt="">
+                    <span class="msg">
+                        <div class="arrow"></div>
+                        Bonjour, comment puis-je vous aider ?
+                    </span>
                 </div>
             </div>            
         
+
             <div class="input-area">
-                <input type="text">
+                <!-- <form enctype='application/json' action="/" method="POST"> -->
+                    <input type="text" name="message">
+                <!-- </form> -->
                 <button id="emoji-btn">&#128512;</button>
                 <button class="submit">
                 <i class="material-icons">send</i></button>
@@ -45,9 +57,9 @@
 
     </section>
 
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.1.1/dist/index.min.js"></script>
-    <script src="{{url_for('static', filename='js/main.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/main.js')}}"></script>
 
 </body>
 </html>
