@@ -8,7 +8,7 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style/style.css') }}">
 
-    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.0.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.7.0/dist/tf.min.js"></script>
     <title>Chat Window</title>
 </head>
 
@@ -36,7 +36,9 @@
             </div>            
         
             <div class="input-area">
-                <input type="text">
+                <!-- <form method="POST"> -->
+                    <input type="text" name="message">
+                <!-- </form> -->
                 <button id="emoji-btn">&#128512;</button>
                 <button class="submit">
                 <i class="material-icons">send</i></button>
@@ -46,7 +48,7 @@
 
     </section>
 
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.1.1/dist/index.min.js"></script>
     <script src="{{url_for('static', filename='js/main.js')}}"></script>
 

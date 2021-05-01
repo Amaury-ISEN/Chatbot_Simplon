@@ -46,7 +46,38 @@ function sendMessage(){
             <span class="my-msg">${userInput}</span>
             <img src="img/user.png" class="avatar">
             </div>`;
-        
+
+            let model;
+            const modelURL = 'http://localhost:5000/chatbot/model';
+            async function loadModel(reponse) {
+                reponse = tf.tensor(reponse);
+
+                // const model = await tf.loadGraphModel(modelURL);
+                const model = await tf.loadLayersModel(modelURL);
+                // const model = await tf.loadLayersModel('./static/js/model.json');
+                console.log('Modèle Chargé')
+
+                // prediction = await model.executeAsync(reponse)
+                const prediction = model.predict(reponse);
+                const label = prediction.argMax(axis = 1).dataSync()[0];
+                console.log('Prédiction :', label);
+                return label
+            }
+
+            $.ajax({
+                url:"/pretreatment", 
+                data: {jsdata: userInput}, 
+                type:"POST", 
+                dataType : 'json', 
+                success: function(reponse){
+                    let temp = `<div class="out-msg">
+                    <span class="my-msg">${loadModel(reponse)}</span>
+                    <img src="img/user.png" class="avatar">
+                    </div>`;
+                    chatArea.insertAdjacentHTML("beforeend", temp);
+                }
+            })
+
             chatArea.insertAdjacentHTML("beforeend", temp);
             inputElm.value=""; //vidage de la zone de saisie après envoi        
         }
@@ -67,16 +98,8 @@ inputArea.addEventListener("keyup", ({key}) => {
 })
 
 
-let model;
 
-const modelURL = 'http://localhost:5000/chatbot/model';
+// Command to convert model
+// tensorflowjs_converter --input_format=keras --output_format=tfjs_layers_model ./model_py/model.h5 ./modeljs_h5_BILSTM
 
-async function loadModel() {
-    // model = await tf.models.modelFromJSON(modelURL)
-    model = await tf.loadLayersModel(modelURL)
-    console.log('Modèle Chargé')
-    predic_test = model.predict('Hello')
-    console.log(predic_test)
-}
-loadModel()
-
+// tensorflowjs_converter --input_format=tf_saved_model ./model_keras/model_3 ./model_3_js
