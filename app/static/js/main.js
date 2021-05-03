@@ -65,11 +65,26 @@ function sendMessage(){
                 console.log(prediction.dataSync())
                 console.log(probabilities)
                 console.log('Prédiction :', label);
-                let temp = `<div class="out-msg">
-                    <span class="my-msg">${label}</span>
+
+                $.ajax({
+                    url:"/get_tag", 
+                    data: {jsdata: label}, 
+                    type:"POST", 
+                    dataType : 'json', 
+                    success: function(reponse){
+                        let temp = `<div class="out-msg">
+                    <span class="my-msg">${reponse}</span>
                     <img src="img/user.png" class="avatar">
                     </div>`;
-                chatArea.insertAdjacentHTML("beforeend", temp)
+                        chatArea.insertAdjacentHTML("beforeend", temp)
+                    }
+                })
+
+                // let temp = `<div class="out-msg">
+                //     <span class="my-msg">${label}</span>
+                //     <img src="img/user.png" class="avatar">
+                //     </div>`;
+                // chatArea.insertAdjacentHTML("beforeend", temp)
             }
 
             $.ajax({

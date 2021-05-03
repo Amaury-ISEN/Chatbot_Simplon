@@ -36,6 +36,11 @@ async def get_output_dic():
     output_dic = Connecteur.get_output_dic()
     return jsonable_encoder(output_dic)
 
+@api.get('/chatbot/get_tag_output_dic')
+async def get_tag_output_dic(tag: str=None):
+    data = Connecteur.get_tag_output_dic(tag)
+    return jsonable_encoder(data)
+
 #Modèle
 @api.get('/chatbot/model')
 async def get_model():

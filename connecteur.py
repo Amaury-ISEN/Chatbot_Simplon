@@ -65,3 +65,11 @@ class Connecteur:
         for elem in data:
             output_dic[elem['tag']] = elem['liste_output']
         return output_dic
+
+    #Récupère le dictionnaire avec le tag en clé et l'ouput en valeur sur un tag précis
+    @classmethod
+    def get_tag_output_dic(cls, tag):
+        cls.connexion()
+        data = cls.col.find_one({'tag': tag}, {'_id':0, 'liste_input': 0})
+        cls.deconnexion()
+        return data
