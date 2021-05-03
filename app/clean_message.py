@@ -6,6 +6,7 @@ import unicodedata
 
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+from sklearn.preprocessing import LabelEncoder
 import pickle
 
 import matplotlib.pyplot as plt
@@ -15,11 +16,22 @@ import numpy as np
 class Pretreatment:
     def __init__(self):
         self.tokenizer = self.load_tokenizer()
+        self.label_encoder = self.load_labelencoder()
 
     def load_tokenizer(self):
         with open('tokenizer.pickle', 'rb') as handle:
             tokenizer = pickle.load(handle)
         return tokenizer
+    
+    def load_labelencoder(self):
+        with open('labelencoder.pickle', 'rb') as handle:
+            le = pickle.load(handle)
+        return le
+
+    def inverse_labelencoding(self, argmax_prediction):
+        tag = self.label_encoder.inverse_transform([argmax_prediction])[0]
+        return tag
+
 
     def remove_accents(self, input_str):
         nfkd_form = unicodedata.normalize('NFKD', input_str)
@@ -80,3 +92,7 @@ class Pretreatment:
         prediction_input = pad_sequences([prediction_input],18)
         return prediction_input
 
+#test = Pretreatment()
+# mess = "Bonjour, je voudrai des informations"
+# print(test.pretreatment(mess))
+#print(test.inverse_labelencoding(11))

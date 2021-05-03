@@ -58,10 +58,18 @@ function sendMessage(){
                 console.log('Modèle Chargé')
 
                 // prediction = await model.executeAsync(reponse)
-                const prediction = model.predict(reponse);
-                const label = prediction.argMax(axis = 1).dataSync()[0];
+                let prediction = model.predict(reponse);
+                let probabilities = tf.softmax(prediction).dataSync();
+                let label = prediction.argMax(axis = 1).dataSync()[0];
+                
+                console.log(prediction.dataSync())
+                console.log(probabilities)
                 console.log('Prédiction :', label);
-                return label
+                let temp = `<div class="out-msg">
+                    <span class="my-msg">${label}</span>
+                    <img src="img/user.png" class="avatar">
+                    </div>`;
+                chatArea.insertAdjacentHTML("beforeend", temp)
             }
 
             $.ajax({
@@ -70,11 +78,7 @@ function sendMessage(){
                 type:"POST", 
                 dataType : 'json', 
                 success: function(reponse){
-                    let temp = `<div class="out-msg">
-                    <span class="my-msg">${loadModel(reponse)}</span>
-                    <img src="img/user.png" class="avatar">
-                    </div>`;
-                    chatArea.insertAdjacentHTML("beforeend", temp);
+                    loadModel(reponse)
                 }
             })
 
@@ -100,6 +104,6 @@ inputArea.addEventListener("keyup", ({key}) => {
 
 
 // Command to convert model
-// tensorflowjs_converter --input_format=keras --output_format=tfjs_layers_model ./model_py/model.h5 ./modeljs_h5_BILSTM
+// tensorflowjs_converter --input_format=keras --output_format=tfjs_layers_model ./chemin_vers_le_model/model.h5 ./nom_dossier_ou_enregistrer_le_model_js
 
 // tensorflowjs_converter --input_format=tf_saved_model ./model_keras/model_3 ./model_3_js
