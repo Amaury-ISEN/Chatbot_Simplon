@@ -47,11 +47,9 @@ function sendMessage(){
             <img src="img/user.png" class="avatar">
             </div>`;
 
-            let model;
             const modelURL = 'http://localhost:5000/chatbot/model';
             async function loadModel(reponse) {
                 reponse = tf.tensor(reponse);
-
                 // const model = await tf.loadGraphModel(modelURL);
                 const model = await tf.loadLayersModel(modelURL);
                 // const model = await tf.loadLayersModel('./static/js/model.json');
@@ -62,15 +60,15 @@ function sendMessage(){
                 let probabilities = tf.softmax(prediction).dataSync();
                 let label = prediction.argMax(axis = 1).dataSync()[0];
                 
-                console.log(prediction.dataSync())
-                console.log(probabilities)
+                // console.log(prediction.dataSync())
+                // console.log(probabilities)
                 console.log('Prédiction :', label);
 
                 $.ajax({
                     url:"/get_tag", 
                     data: {jsdata: label}, 
                     type:"POST", 
-                    dataType : 'json', 
+                    dataType : 'json',
                     success: function(reponse){
                         let temp = `<div class="out-msg">
                     <span class="my-msg">${reponse}</span>
@@ -79,12 +77,6 @@ function sendMessage(){
                         chatArea.insertAdjacentHTML("beforeend", temp)
                     }
                 })
-
-                // let temp = `<div class="out-msg">
-                //     <span class="my-msg">${label}</span>
-                //     <img src="img/user.png" class="avatar">
-                //     </div>`;
-                // chatArea.insertAdjacentHTML("beforeend", temp)
             }
 
             $.ajax({
@@ -93,7 +85,7 @@ function sendMessage(){
                 type:"POST", 
                 dataType : 'json', 
                 success: function(reponse){
-                    loadModel(reponse)
+                    loadModel(reponse);
                 }
             })
 
