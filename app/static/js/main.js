@@ -50,19 +50,18 @@ function sendMessage(){
             const modelURL = 'http://localhost:5000/chatbot/model';
             async function loadModel(reponse) {
                 reponse = tf.tensor(reponse);
+                console.log(reponse.dataSync());
                 // const model = await tf.loadGraphModel(modelURL);
                 const model = await tf.loadLayersModel(modelURL);
-                // const model = await tf.loadLayersModel('./static/js/model.json');
                 console.log('Modèle Chargé')
 
-                // prediction = await model.executeAsync(reponse)
+                // let prediction = await model.executeAsync(reponse)
                 let prediction = model.predict(reponse);
-                let probabilities = tf.softmax(prediction).dataSync();
                 let label = prediction.argMax(axis = 1).dataSync()[0];
-                
-                // console.log(prediction.dataSync())
-                // console.log(probabilities)
                 console.log('Prédiction :', label);
+                // let probabilities = tf.softmax(prediction).dataSync();
+
+                
 
                 $.ajax({
                     url:"/get_tag", 

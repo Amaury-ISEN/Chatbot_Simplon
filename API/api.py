@@ -44,13 +44,13 @@ async def get_tag_output_dic(tag: str=None):
 #Modèle
 @api.get('/chatbot/model')
 async def get_model():
-    json_model = json.load(open("./modeljs_h5_BILSTM/model.json"))
+    json_model = json.load(open("./modeljs_final/model.json"))
     return jsonable_encoder(json_model)
 
 #Poids du modèle
 @api.get('/chatbot/group1-shard1of1.bin')
 async def load_shards():
-    path_file = f"./modeljs_h5_BILSTM/group1-shard1of1.bin"
+    path_file = f"./modeljs_final/group1-shard1of1.bin"
     return FileResponse(path=path_file)
 
 #Si upload=False insère un nouveau document doc avec un nouveau tag

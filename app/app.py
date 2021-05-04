@@ -27,7 +27,8 @@ def get_tag():
         output_int = int(request.form['jsdata'])
         print(output_int)
         tag = message_cleaner.inverse_labelencoding(output_int)
-        url = f"http://api:5000/chatbot/get_tag_output_dic?tag={tag}" #Sans Docker f"http://localhost:5000/chatbot/get_tag_output_dic?tag={tag}"
+        url = f"http://api:5000/chatbot/get_tag_output_dic?tag={tag}"  #Pour Docker
+        # url = f"http://localhost:5000/chatbot/get_tag_output_dic?tag={tag}" #Sans Docker 
         output_reponse = requests.get(url).json()['liste_output']
         return json.dumps(output_reponse)        
 

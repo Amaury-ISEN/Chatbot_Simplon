@@ -1,7 +1,8 @@
 import json
 import pandas as pd
 from nltk.stem.snowball import FrenchStemmer, EnglishStemmer
-from langdetect import detect
+from nltk.corpus import stopwords 
+from langdetect import detect_langs
 import unicodedata
 
 from tensorflow.keras.preprocessing.text import Tokenizer
@@ -17,6 +18,7 @@ class Pretreatment:
     def __init__(self):
         self.tokenizer = self.load_tokenizer()
         self.label_encoder = self.load_labelencoder()
+        self.stop_words_fr, self.stop_words_en = self.load_stopwords()
 
     def load_tokenizer(self):
         with open('tokenizer.pickle', 'rb') as handle:
@@ -27,6 +29,18 @@ class Pretreatment:
         with open('labelencoder.pickle', 'rb') as handle:
             le = pickle.load(handle)
         return le
+
+    def load_stopwords(self):
+        #définir les stopwords
+        stop_words_en = list(set(stopwords.words('english')))
+        stop_words_fr = list(set(stopwords.words('french')))
+        #rajouter aux stopwords français leurs versions sans accents
+        stop_words_fr_1 = []
+        for word in stop_words_fr:
+            word = self.remove_accents(word)
+            stop_words_fr_1.append(word)
+        stop_words_fr = list(sorted(set(stop_words_fr + stop_words_fr_1)))
+        return stop_words_fr, stop_words_en
 
     def inverse_labelencoding(self, argmax_prediction):
         tag = self.label_encoder.inverse_transform([argmax_prediction])[0]
@@ -39,16 +53,21 @@ class Pretreatment:
         return str(only_ascii)[2:-1]
 
     def treatment(self, text):
-        #vérifier si c'est une question
+         #vérifier si c'est une question
         if text[-1] == "?":
             question = "?"
         else:
             question = "0"
             
         #vérifier la langue
-        if detect(text) == "fr":
+        language_list = detect_langs(text)
+        language_list_2 = []
+        for language in language_list:
+            language = str(language).split(":")[0]
+            language_list_2.append(language)
+        if "fr" in language_list_2:
             language = "francais"
-        elif detect(text) == "en":
+        elif "en" in language_list_2:
             language = "anglais"
         else:
             language = "francais"
@@ -69,16 +88,24 @@ class Pretreatment:
             
             #appliquer le stemming suivant la langue
             for word1 in word.split():
-                if language == "fr":
-                    word1 = EnglishStemmer().stem(word1)
+                word_yes = False
+                if language == "anglais":
+                    if word1 not in self.stop_words_en:
+                        word1 = EnglishStemmer().stem(word1)
+                        word_yes = True
                 else:
-                    word1 = FrenchStemmer().stem(word1)
+                    if word1 not in self.stop_words_fr:
+                        word1 = FrenchStemmer().stem(word1)
+                        word_yes = True
                 #enlever les accents
-                word1 = self.remove_accents(word1)
-                words_list.append(word1)
+                if word_yes == True:
+                    word1 = self.remove_accents(word1)
+                    words_list.append(word1)
                 
+        #joindre en une string
         text = " ".join(words_list)
         return " ".join([text, question, language])
+
 
     def pretreatment(self, message):
         texts_p = []
@@ -89,10 +116,10 @@ class Pretreatment:
         #tokenizing and padding
         prediction_input = self.tokenizer.texts_to_sequences(texts_p)
         prediction_input = np.array(prediction_input).reshape(-1)
-        prediction_input = pad_sequences([prediction_input],18)
+        prediction_input = pad_sequences([prediction_input],11)
         return prediction_input
 
-#test = Pretreatment()
-# mess = "Bonjour, je voudrai des informations"
+# test = Pretreatment()
+# mess = "J'aimerai des informations"
 # print(test.pretreatment(mess))
 #print(test.inverse_labelencoding(11))
