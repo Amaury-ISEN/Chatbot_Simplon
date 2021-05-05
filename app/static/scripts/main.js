@@ -68,8 +68,8 @@ function sendMessage(){
 
                 let temp = `<div class="income-msg is-typing">
                 <img class="avatar" src="${avatarBot}" alt="avatar du chatbot">
-                <span class="msg typing">
-                ...
+                <span class="msg">
+                <p class="loading"><span>.</span><span>.</span><span>.</span></p>
                 </span>
                 </div>`
                 chatArea.insertAdjacentHTML("beforeend", temp)
