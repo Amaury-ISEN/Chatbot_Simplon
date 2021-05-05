@@ -10,6 +10,7 @@ const inputArea = document.querySelector(".input-area");
 const emojiBtn = document.querySelector('#emoji-btn');
 const picker = new EmojiButton();
 
+
 // Ce type de structures : () => {}
 // correspond à des arrow functions ES6
 // Il s'agit de fonctions js à la syntaxe simplifiée
@@ -32,11 +33,14 @@ chatBtn.addEventListener('click', ()=>{
     if (popup.classList.contains('show')) // Si la classe show est présente dans les classes de l'élément popup
         {
             popup.classList.toggle("animate__fadeOutDown"); // alors le popup était déjà ouvert et on le ferme
+            autoFocus();
         }
 
     else
     {
         popup.classList.toggle('show'); // Si la classe show n'était pas présente, on affiche le popup de chat
+        autoFocus();
+        scrollToBottom();
     }
 
 })
@@ -68,9 +72,9 @@ function sendMessage(){
                                 ${response}
                                 </span>
                                 </div>`
-
+                    get_response(response);
                     chatArea.insertAdjacentHTML("beforeend", temp); // Ajout du message à la fin des messages existants
-
+                    scrollToBottom();
                 },
                 error: function(xhr) {
                   //Do Something to handle error
@@ -90,6 +94,7 @@ function sendMessage(){
 // 1er cas, écoute du clic :
 submitBtn.addEventListener('click', ()=>{
     sendMessage();
+    scrollToBottom();
 })
 // 2ème cas, écoute de la touche entrée :
 inputArea.addEventListener("keyup", ({key}) => {
@@ -97,8 +102,67 @@ inputArea.addEventListener("keyup", ({key}) => {
     // fléchée du listener correspond à la touche entrée :
     if (key === "Enter") {
         sendMessage();
+        scrollToBottom();
     }
 })
 
 
 
+
+// Défilement automatique vers le bas du chat (fonction appelée en cas de nouveaux messages).
+function scrollToBottom() {
+    chatArea.scrollTop = chatArea.scrollHeight;
+    // scrollHeight est la hauteur totale du contenu, scrollTop le nombre de pixels défilés,
+    // équivaloir les deux nous amène tout en bas du contenu
+  }
+
+// Focus sur la zone de saisie quand on ouvre le chat, pour éviter à l'utilisateur de devoir cliquer dedans
+function autoFocus() {
+    inputElm.focus();
+}
+
+// Fonction de récupération de la réponse du chatbot pour consigne en log
+function get_response(response) {
+    $.ajax({
+        url: "/get_response",
+        type: "post",
+        data: {jsdata: response},
+        success: function(response) {
+
+        },
+        error: function() {
+          //Do Something to handle error
+        }
+      });
+}
+
+
+// En cas de refresh/nouvelle visite de la page, réinjection dans la popup de l'historique de chat s'il existe :
+reinjection_messages(messages = historique)
+function reinjection_messages(messages){
+    console.log(typeof(messages[0]))
+    messages.forEach(function (element, index){
+        console.log(element, index)
+        if (element[1] == "chatbot"){
+
+            let temp = `<div class="income-msg">
+            <img class="avatar" src="${avatarBot}" alt="avatar du chatbot">
+            <span class="msg">
+            ${element[2]}
+            </span>
+            </div>`
+            chatArea.insertAdjacentHTML("beforeend", temp); // Ajout du message à la fin des messages existants
+        }
+
+        else {
+            let temp = `<div class="out-msg">
+            <img class="avatar" src="${avatarUser}" alt="avatar de l'utilisateur">
+            <span class="my-msg">
+            ${element[2]}
+            </span>
+            </div>`
+            chatArea.insertAdjacentHTML("beforeend", temp); // Ajout du message à la fin des messages existants
+        }
+
+    });
+}

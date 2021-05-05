@@ -29,7 +29,7 @@
         </button>
 
         <div class="chat-popup animate__animated animate__fadeInUp">
-            <div class="badge">1</div>
+            <!-- <div class="badge">1</div> -->
             
             <div class="chat-area">
                 <div class="income-msg">
@@ -54,15 +54,17 @@
 
     </section>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.1.1/dist/index.min.js"></script>
-    <script src="{{ url_for('static', filename='js/main.js')}}"></script>
-
     <!-- On envoie les images au script "main.js" pour les avatars : -->
     <script>
         var avatarBot = "{{ url_for('static', filename='img/bot.png') }}"
         var avatarUser = "{{ url_for('static', filename='img/user.png') }}"
     </script>
+    <!-- On envoie l'historique de chat au script JS via une injection jinja -->
+    <script> var historique = {{ historique_chat|safe }} </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.1.1/dist/index.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js')}}"></script>
 
 </body>
 </html>
