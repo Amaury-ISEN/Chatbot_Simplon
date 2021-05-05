@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="viewport" contents="width=device-width, initial-scale=1.0">
     
+    <!-- favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
     <!-- cnn pour les icônes google material icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/material-design-icons/3.0.2/iconfont/material-icons.min.css" integrity="sha512-y9glprRcVESvYY3suAqBUYXx0ySbQNvbzzgvLy9F2o38Y7XCNeq/No2gnHjV3+Rjyq5ijoPZRMXotpdw6jcG4g==" crossorigin="anonymous">
 
@@ -12,6 +14,8 @@
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css')}}">
 
+    <!-- import de tensorflow js -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.7.0/dist/tf.min.js"></script>
     <title>Chat Window</title>
 </head>
 
@@ -64,7 +68,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@joeattardi/emoji-button@3.1.1/dist/index.min.js"></script>
-    <script src="{{ url_for('static', filename='js/main.js')}}"></script>
+    <script src="{{ url_for('static', filename='scripts/main.js')}}"></script>
 
 </body>
 </html>

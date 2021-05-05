@@ -10,7 +10,6 @@ const inputArea = document.querySelector(".input-area");
 const emojiBtn = document.querySelector('#emoji-btn');
 const picker = new EmojiButton();
 
-
 // Ce type de structures : () => {}
 // correspond à des arrow functions ES6
 // Il s'agit de fonctions js à la syntaxe simplifiée
@@ -51,42 +50,74 @@ function sendMessage(){
 
     if (userInput.length == 0) // si la zone de saisie est vide
         {
-
+            // on envoie rien
         }
     else
         {
-            // Formatage de l'input avec les balises HTML correctes :
+            // On crée un élément html correspondant au message écrit par l'utilisateur 
             let temp = `<div class="out-msg">
-            <span class="my-msg"><div class = "arrow"></div>${userInput}</span>
+            <span class="my-msg">${userInput}</span>
             <img src=${avatarUser} class="avatar">
             </div>`;
-        
+
+            // on récupère le modèle sur l'API :
+            const modelURL = 'http://localhost:5000/chatbot/model';
+
+            // On crée une fonction pour récupérer la réponse du chatbot via le modèle
+            async function loadModel(reponse) {
+
+                let temp = `<div class="income-msg is-typing">
+                <img class="avatar" src="${avatarBot}" alt="avatar du chatbot">
+                <span class="msg typing">
+                ...
+                </span>
+                </div>`
+                chatArea.insertAdjacentHTML("beforeend", temp)
+                scrollToBottom()
+
+                reponse = tf.tensor(reponse);
+                console.log(reponse.dataSync());
+                // const model = await tf.loadGraphModel(modelURL);
+                const model = await tf.loadLayersModel(modelURL);
+                console.log('Modèle Chargé')
+
+                // let prediction = await model.executeAsync(reponse)
+                let prediction = model.predict(reponse);
+                let label = prediction.argMax(axis = 1).dataSync()[0];
+                console.log('Prédiction :', label);
+                // let probabilities = tf.softmax(prediction).dataSync();
+
+                $.ajax({
+                    url:"/get_tag", 
+                    data: {jsdata: label}, 
+                    type:"POST", 
+                    dataType : 'json',
+                    success: function(reponse){
+                        $('.is-typing').remove();
+                        let temp = `<div class="income-msg">
+                                    <img class="avatar" src="${avatarBot}" alt="avatar du chatbot">
+                                    <span class="msg">
+                                    ${reponse}
+                                    </span>
+                                    </div>`
+                        chatArea.insertAdjacentHTML("beforeend", temp)
+                        scrollToBottom();
+                    }
+                })
+            }
+
             $.ajax({
-                url: "/get_message",
-                type: "post",
-                data: {jsdata: userInput},
-                success: function(response) {
-                    let temp = `<div class="income-msg">
-                                <img class="avatar" src="${avatarBot}" alt="avatar du chatbot">
-                                <span class="msg">
-                                ${response}
-                                </span>
-                                </div>`
-                    get_response(response);
-                    chatArea.insertAdjacentHTML("beforeend", temp); // Ajout du message à la fin des messages existants
-                    scrollToBottom();
-                },
-                error: function(xhr) {
-                  //Do Something to handle error
+                url:"/pretreatment", 
+                data: {jsdata: userInput}, 
+                type:"POST", 
+                dataType : 'json', 
+                success: function(reponse){
+                    loadModel(reponse);
                 }
-              });
-
-            chatArea.insertAdjacentHTML("beforeend", temp); // Ajout du message à la fin des messages existants
-            inputElm.value=""; // Vidage de la zone de saisie après envoi
-        
-
-            
-
+            })
+            chatArea.insertAdjacentHTML("beforeend", temp);
+            scrollToBottom();
+            inputElm.value=""; //vidage de la zone de saisie après envoi        
         }
 }
 
@@ -108,6 +139,14 @@ inputArea.addEventListener("keyup", ({key}) => {
 
 
 
+// Command to convert model
+// tensorflowjs_converter --input_format=keras --output_format=tfjs_layers_model ./chemin_vers_le_model/model.h5 ./nom_dossier_ou_enregistrer_le_model_js
+
+// tensorflowjs_converter --input_format=tf_saved_model ./model_keras/model_3 ./model_3_js
+
+
+
+
 
 // Défilement automatique vers le bas du chat (fonction appelée en cas de nouveaux messages).
 function scrollToBottom() {
@@ -121,24 +160,10 @@ function autoFocus() {
     inputElm.focus();
 }
 
-// Fonction de récupération de la réponse du chatbot pour consigne en log
-function get_response(response) {
-    $.ajax({
-        url: "/get_response",
-        type: "post",
-        data: {jsdata: response},
-        success: function(response) {
-
-        },
-        error: function() {
-          //Do Something to handle error
-        }
-      });
-}
-
 
 // En cas de refresh/nouvelle visite de la page, réinjection dans la popup de l'historique de chat s'il existe :
 reinjection_messages(messages = historique)
+
 function reinjection_messages(messages){
     console.log(typeof(messages[0]))
     messages.forEach(function (element, index){
@@ -156,10 +181,10 @@ function reinjection_messages(messages){
 
         else {
             let temp = `<div class="out-msg">
-            <img class="avatar" src="${avatarUser}" alt="avatar de l'utilisateur">
             <span class="my-msg">
             ${element[2]}
             </span>
+            <img class="avatar" src="${avatarUser}" alt="avatar de l'utilisateur">
             </div>`
             chatArea.insertAdjacentHTML("beforeend", temp); // Ajout du message à la fin des messages existants
         }
