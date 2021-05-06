@@ -91,4 +91,4 @@ class Connecteur:
         return data 
 
 # test_add_data = Connecteur.add_data('affirmation', ['test1'], ['test1', 'test2', 'test3'])
-# test_delete_in_out_elem = Connecteur.delete_in_out_elem('affirmation', [], ['test1'])
+#test_delete_in_out_elem = Connecteur.delete_in_out_elem('affirmation', [], ['test1'])

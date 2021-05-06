@@ -28,13 +28,12 @@
         <h1>Chat Popup</h1>
         <p>Cliquez sur l'icône pour déployer le chat.</p>
 
-        <button class="chat-btn">
-        <i class="material-icons">live_help</i>
+        <button class="chat-btn animate__animated">
+        <i class="material-icons popup-icon">live_help</i>
         </button>
 
-        <div class="chat-popup animate__animated animate__fadeInUp">
+        <div class="chat-popup animate__animated">
             <!-- <div class="badge">1</div> -->
-            
             <div class="chat-area">
                 <div class="income-msg">
                     <img class="avatar" src="{{ url_for('static', filename='img/bot.png')}}" alt="">
@@ -47,7 +46,7 @@
 
             <div class="input-area">
                 <!-- <form enctype='application/json' action="/" method="POST"> -->
-                    <input type="text" name="message">
+                    <input type="text" name="message" placeholder="Posez vos questions ici.">
                 <!-- </form> -->
                 <button id="emoji-btn">&#128512;</button>
                 <button class="submit">

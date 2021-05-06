@@ -16,14 +16,17 @@ app.config['SECRET_KEY'] = 'ChatbotApplication'
 
 @app.route('/')
 def index():
+    #Chargement de l'historique si il existe
     if 'username' in session:
         historique_chat = Historisation.load_historique(session)
-        return render_template('index.html', historique_chat=historique_chat)
+        return render_template('index.html', historique_chat=historique_chat) #Pour le chatbot seul
+        # return render_template('index_test.html', historique_chat=historique_chat) #Pour le chatbot intégré au site
 
-
+    #Créer un fichier historique sinon
     else:
         Historisation.create_historique(session)
-        return render_template('index.html')
+        return render_template('index.html') #Pour le chatbot seul
+    # return render_template('index.html') #Pour le chatbot intégré au site
 
 @app.route('/pretreatment', methods=['GET','POST'])
 def pretreatment():
@@ -44,8 +47,10 @@ def get_tag():
         output_int = int(request.form['jsdata'])
         print(output_int)
         tag = message_cleaner.inverse_labelencoding(output_int)
+
         url = f"http://api:5000/chatbot/get_tag_output_dic?tag={tag}"  #Pour Docker
         # url = f"http://localhost:5000/chatbot/get_tag_output_dic?tag={tag}" #Sans Docker 
+
         output_reponse = requests.get(url).json()['liste_output'][0]
         
         # Envoi de la réponse du chatbot au chatlog :

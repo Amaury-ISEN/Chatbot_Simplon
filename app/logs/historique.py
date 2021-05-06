@@ -2,6 +2,7 @@ import datetime
 from urllib.parse import unquote
 import csv
 import uuid
+import codecs
 
 class Historisation:
 
@@ -29,10 +30,10 @@ class Historisation:
         path = "./logs/"+session["random_code"]+".csv"
         historique_chat = []
         try: 
-            with open(path, newline='') as csvfile:
+            with open(path, newline='') as csvfile:  #encoding='ISO-8859-1', 
                 reader = csv.reader(csvfile, delimiter='§')
-                for row in reader:
-                    historique_chat.append(row)
+                for rows in reader:
+                    historique_chat.append(rows)
         except IOError as e: # Si erreur IO, alors le fichier à ce nom n'existe pas et on peut poursuivre
             print("erreur = ", e)
         print("historique = ", historique_chat)
