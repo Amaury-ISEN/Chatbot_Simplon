@@ -253,3 +253,10 @@ input[type="text"]{
     /* Démarre l'animation du troisième point avec un délai */
     animation-delay: .4s;
 }
+
+
+
+/* Propriétés pour les icônes google */
+.popup-icon{
+    font-size: 2.5em;  /* Preferred icon size */
+}

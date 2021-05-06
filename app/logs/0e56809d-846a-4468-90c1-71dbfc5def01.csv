@@ -1,7 +1,7 @@
 2021-05-04 16:25:40.689968§utilisateur§salut
-2021-05-04 16:25:40.732968§chatbot§"salut"
+2021-05-04 16:25:40.732968§chatbot§salut
 2021-05-04 17:22:02.378401§utilisateur§salut la compagnie
-2021-05-04 17:22:02.412378§chatbot§"salut la compagnie"
+2021-05-04 17:22:02.412378§chatbot§salut la compagnie
 2021-05-05 18:41:42.501806§utilisateur§salut
 2021-05-05 18:43:24.156965§utilisateur§bonjour c ki
 2021-05-05 18:43:39.982444§chatbot§Bonjour à toi aussi ! Bienvenue sur le site Simplet, es-tu étudiants ou partenaires ?
@@ -64,3 +64,11 @@
 2021-05-06 09:28:18.376641§chatbot§Les écoles Simplon sont basées sur la pédagogie active, il n’y a donc pas de cours magistraux. Les compétences sont validées tout au long de la période intensive grâce à divers projets sur divers sujets.
 2021-05-06 09:35:40.152936§utilisateur§JE NE COMPRENDS PAS !
 2021-05-06 09:35:51.514036§chatbot§
+2021-05-06 11:57:20.025884§utilisateur§CENSURE
+2021-05-06 11:57:48.276803§chatbot§Si ce n'est pas le cas, essayez une autre question.
+2021-05-06 11:58:18.816009§utilisateur§CENSURE
+2021-05-06 11:58:41.745213§chatbot§Si ce n'est pas le cas, essayez une autre question.
+2021-05-06 11:59:19.312433§utilisateur§CENSURE
+2021-05-06 11:59:42.444951§chatbot§Les écoles Simplet sont basées sur la pédagogie active, sans cours magistraux. Les compétences sont validées tout au long de la période intensive grâce à divers projets sur divers sujets. Les cours ont lieu de 9 à 17h du lundi au vendredi. Le programme est centré sur la programmation et l'intelligence artificielle dans leurs applications de traitement et d'analyse de données. Quelques concepts mathématiques clés sont revues en début d'année.
+2021-05-06 14:11:04.193618§utilisateur§coucou
+2021-05-06 14:11:31.022773§chatbot§Les écoles Simplet sont basées sur la pédagogie active, sans cours magistraux. Les compétences sont validées tout au long de la période intensive grâce à divers projets sur divers sujets. Les cours ont lieu de 9 à 17h du lundi au vendredi. Le programme est centré sur la programmation et l'intelligence artificielle dans leurs applications de traitement et d'analyse de données. Quelques concepts mathématiques clés sont revues en début d'année.

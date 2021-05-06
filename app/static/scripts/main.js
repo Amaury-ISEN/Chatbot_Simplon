@@ -11,6 +11,28 @@ const inputArea = document.querySelector(".input-area");
 const emojiBtn = document.querySelector('#emoji-btn');
 const picker = new EmojiButton();
 
+
+
+const animateCSS = (element, animation, prefix = 'animate__') =>
+  // We create a Promise and return it
+  new Promise((resolve, reject) => {
+    const animationName = `${prefix}${animation}`;
+    const node = document.querySelector(element);
+
+    node.classList.add(`${prefix}animated`, animationName);
+
+    // When the animation ends, we clean the classes and resolve the Promise
+    function handleAnimationEnd(event) {
+      event.stopPropagation();
+      node.classList.remove(`${prefix}animated`, animationName);
+      resolve('Animation ended');
+    }
+
+    node.addEventListener('animationend', handleAnimationEnd, {once: true});
+  });
+
+
+
 // INFO :
 // Ce type de structures : () => {}
 // correspond à des arrow functions ES6
@@ -33,15 +55,26 @@ chatBtn.addEventListener('click', ()=>{
 
     if (popup.classList.contains('show')) // Si la classe show est présente dans les classes de l'élément popup
         {
-            popup.classList.toggle("animate__fadeOutDown"); // alors le popup était déjà ouvert et on le ferme
-            autoFocus();
+            $('.popup-icon').html('live_help')
+            animateCSS(element='.chat-btn', 'rubberBand')
+            // Do something after the animation
+            animateCSS(element='.chat-popup', 'fadeOutDown').then((message) => {
+                popup.classList.toggle('show', force=false)
+                autoFocus();
+              });
         }
 
     else
     {
-        popup.classList.toggle('show'); // Si la classe show n'était pas présente, on affiche le popup de chat
+
+        animateCSS(element='.chat-btn', 'rubberBand')
+        $('.popup-icon').html('close')
+        // Do something after the animation
+        popup.classList.toggle('show', force=true)
         autoFocus();
         scrollToBottom();
+        animateCSS(element='.chat-popup', 'fadeInUp').then((message) => {})
+
     }
 
 })
@@ -185,9 +218,7 @@ reinjection_messages(messages = historique)
  * @param {*} messages 
  */
 function reinjection_messages(messages){
-    console.log(typeof(messages[0]))
     messages.forEach(function (element, index){
-        console.log(element, index)
         if (element[1] == "chatbot"){
 
             let temp = `<div class="income-msg">
@@ -211,3 +242,5 @@ function reinjection_messages(messages){
 
     });
 }
+
+
