@@ -15,6 +15,7 @@ app.config['SECRET_KEY'] = 'ChatbotApplication'
 
 @app.route('/')
 def index():
+    """Render de l'index et chargement des éventuels historiques de chatlogs"""
     if 'username' in session:
         print("coucou")
 
@@ -51,6 +52,7 @@ def index():
 
 @app.route('/pretreatment', methods=['GET','POST'])
 def pretreatment():
+    """Prétraitement du message utilisateur"""
     if request.method == 'POST':
         message = request.form['jsdata']
         message = unquote(message)
@@ -68,6 +70,7 @@ def pretreatment():
 
 @app.route('/get_tag', methods=['GET', 'POST'])
 def get_tag():
+    """Récupération du tag et renvoi de la réponse chatbot associée."""
     if request.method == 'POST':
         output_int = int(request.form['jsdata'])
         print(output_int)

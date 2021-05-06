@@ -1,21 +1,19 @@
 @keyframes blink {
     /**
-     * At the start of the animation the dot
-     * has an opacity of .2
+     * Au début de l'animation, le point à une opacité de 0.2
      */
     0% {
       opacity: 0.2;
     }
     /**
-     * At 20% the dot is fully visible and
-     * then fades out slowly
+     * A 20%, le point est totalement visible et puis il disparaît doucement
      */
     20% {
       opacity: 1;
     }
     /**
-     * Until it reaches an opacity of .2 and
-     * the animation can start again
+     * Quand le point atteint l'opacité 0.2 par le haut,
+     * il repart à la hause (l'anim redémarre).
      */
     100% {
       opacity: 0.2;
@@ -79,6 +77,7 @@ p{
     opacity: 1;
 }
 
+ /* Réglages pour la fenêtre de chat en elle-même */
 .chat-popup{
     display:none; 
     position: fixed;
@@ -96,17 +95,12 @@ p{
 
 }
 
-.chat-area{
-    height: 80%;
-    overflow-y: auto;
-    overflow-x: hidden;
-}
-
 .income-msg{
     display: flex;
     align-items: center;
 }
 
+ /* Réglages pour les messages du robot : */
 .income-msg .msg{
     background-color: rgb(206, 0, 51);
     color: white;
@@ -126,7 +120,6 @@ p{
     /* box-shadow: 0 2px 5px rgba(0,0,0,0.4); */
 }
 
-
 .avatar{
     width:45px;
     height:45px;
@@ -134,7 +127,8 @@ p{
     object-fit: cover;
 }
 
-.badge{
+/* Fonctionnalité conservée pour legacy (badge de notification de message non lu) */
+/* .badge{
     position: absolute;
     width: 30px;
     height: 30px;
@@ -146,14 +140,13 @@ p{
     align-items: center;
     top:-10px;
     right:-10px;
-}
+} */
 
 .input-area{
     position: relative;
     display: flex;
     justify-content: center;
 }
-
 
 input[type="text"]{
     width: 100%;
@@ -166,7 +159,6 @@ input[type="text"]{
     padding-right: 30px;
     outline: 0 !important; /* Enlever le rectangle qui apparaît nativement quand on clique la zone de saisie */
 }
-
 
 #emoji-btn{
     position: absolute;
@@ -198,7 +190,6 @@ input[type="text"]{
     align-items: center;
 }
 
-
 .msg, .my-msg{
     display: flex;
     justify-content: flex-end;
@@ -217,8 +208,6 @@ input[type="text"]{
     transition: opacity 0.15s;
 }
 
-
-
 /* réglage global des animations animate.css*/
 :root {
     --animate-duration: 400ms;
@@ -226,77 +215,41 @@ input[type="text"]{
   }
 
 
-
-
-
-
-
-.chat-area{
+ /* Réglages pour la zone de chat qui contient tous les messages : */
+ .chat-area{
+    height: 80%;
+    overflow-x: hidden;
     padding-right: 5px;
     overflow-y: scroll;
     scrollbar-color: rgba(221, 221, 221, 0.5) rgba(0, 0, 0, 0) !important;
     scrollbar-width: thin;    
 }
 
-  .chat-area::-webkit-scrollbar{
+.chat-area::-webkit-scrollbar{
     transition: opacity 4.15s;
 }
 
 .chat-area:hover{
     overflow-y: scroll;
     scrollbar-color: lightgray rgba(0, 0, 0, 0) !important;
-
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 .loading span {
-    /**
-     * Use the blink animation, which is defined above
-     */
+    /* Utilisation de l'animation keyframe blink définie plus haut */
     animation-name: blink;
-    /**
-     * The animation should take 1.4 seconds
-     */
     animation-duration: 1.4s;
-    /**
-     * It will repeat itself forever
-     */
+    /* L'animation se répète en boucle */
     animation-iteration-count: infinite;
-    /**
-     * This makes sure that the starting style (opacity: .2)
-     * of the animation is applied before the animation starts.
-     * Otherwise we would see a short flash or would have
-     * to set the default styling of the dots to the same
-     * as the animation. Same applies for the ending styles.
-     */
+    /* L'animation commence avec le bon style pour le point. Evite un flash disgrâcieux */
     animation-fill-mode: both;
 }
 
 .loading span:nth-child(2) {
-    /**
-     * Starts the animation of the third dot
-     * with a delay of .2s, otherwise all dots
-     * would animate at the same time
-     */
+    /* Démarre l'animation du deuxième point avec un délai */
     animation-delay: .2s;
 }
 
 .loading span:nth-child(3) {
-    /**
-     * Starts the animation of the third dot
-     * with a delay of .4s, otherwise all dots
-     * would animate at the same time
-     */
+    /* Démarre l'animation du troisième point avec un délai */
     animation-delay: .4s;
 }
